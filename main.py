@@ -24,7 +24,7 @@ TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
 
 
 # CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 
 PROXY_HOST = "45.118.250.2"
 PROXY_PORT = "8000"
