@@ -329,7 +329,7 @@ def send_welcome(message):
     save_user_info(user)
 
     welcome_message = (
-        f"Здравствуйте, {user_first_name}!\n"
+        f"Здравствуйте, {user_first_name}!\n\n"
         "Я бот компании KazKorExport. Я помогу вам расчитать стоимость понравившегося вам автомобиля из Южной Кореи до Владивостока\n\n"
         "Выберите действие из меню ниже"
     )
@@ -689,17 +689,22 @@ def calculate_cost(link, message):
         ) + 110000
         total_cost_formatted = format_number(total_cost)
         price_formatted = format_number(price)
+        current_rub_krw_rate = (
+            json_response.get("result", {}).get("rates", {}).get("rub", 0)
+        )
 
         preview_link = f"https://fem.encar.com/cars/detail/{car_id}"
 
         # Формирование сообщения результата
         result_message = (
             f"Возраст автомобиля: {age_formatted}\n"
-            f"Стоимость в Южной Корее (в корейских вонах): {price_formatted} KRW\n"
-            f"Объём двигателя: {engine_volume_formatted}cc\n\n"
+            f"Стоимость в Южной Корее (в корейских вонах): {price_formatted} ₩\n"
+            f"Объём двигателя: {engine_volume_formatted}\n\n"
             f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
+            f"Текущий курс рубля к корейской воне: \n**{current_rub_krw_rate} ₩**\n"
+            f"Для просмотра текущего курса ЦБ нажмите сюда /cbr \n\n"
             f"🔗 [Ссылка на автомобиль]({preview_link})\n\n"
-            "Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @BahaBBB777\n\n"
+            f"Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @BahaBBB777\n\n"
             "🔗[Официальный телеграм канал](https://t.me/kazkor_auto)\n"
         )
 
@@ -841,7 +846,6 @@ def handle_callback_query(call):
         russia_duty_formatted = format_number(details["russiaDuty"])
 
         detail_message = (
-            "Подробный разбор затрат:\n\n"
             f"Стоимость авто: <b>{car_price_formatted}₽</b>\n\n"
             f"Услуги Брокера (СВХ, СБКТС): <b>{format_number(115000)}₽</b>\n\n"
             f"Доставка до Владивостока: <b>{delivery_fee_formatted}₽</b>\n\n"
@@ -870,6 +874,11 @@ def handle_callback_query(call):
         )
 
     elif call.data == "technical_report":
+        bot.send_message(
+            call.message.chat.id,
+            "Получаем технический отчёт об автомобиле. Пожалуйста подождите ⏳",
+        )
+
         # Retrieve insurance information
         insurance_info = get_insurance_total()
 
@@ -982,11 +991,7 @@ def handle_message(message):
             f"Вы можете связаться с нами через WhatsApp по ссылке: {whatsapp_link}",
         )
     elif user_message == "О нас":
-        about_message = (
-            "BestAutoExport — это компания, специализирующаяся на экспорте автомобилей "
-            "из Южной Кореи. Мы предлагаем широкий выбор автомобилей и прозрачные условия "
-            "для наших клиентов."
-        )
+        about_message = "KazKor — компания, специализирующаяся на поставках автомобилей из Южной Кореи в страны СНГ. Мы предлагаем лучшие автомобили, гибкие условия сотрудничества и оперативную доставку для наших клиентов."
         bot.send_message(message.chat.id, about_message)
     elif user_message == "Telegram-канал":
         channel_link = "https://t.me/kazkor_auto"
@@ -994,13 +999,17 @@ def handle_message(message):
             message.chat.id, f"Подписывайтесь на наш Telegram-канал: {channel_link}"
         )
     elif user_message == "Instagram":
-        instagram_link = "https://www.instagram.com/kazkor_autoexport"
-        bot.send_message(message.chat.id, f"Посетите наш Instagram: {instagram_link}")
+        instagram_link = "https://www.instagram.com/kazkor_autoexport/"
+        bot.send_message(
+            message.chat.id,
+            f"Посетите наш Instagram: {instagram_link}",
+            disable_web_page_preview=False,
+        )
     elif user_message == "TikTok":
         tiktok_link = "https://www.tiktok.com/@kazkor.autoexport"
         bot.send_message(
             message.chat.id,
-            f"Смотрите свежий контент от BestAutoExport на TikTok: {tiktok_link}",
+            f"Смотрите свежий контент от KazKorExport на TikTok: {tiktok_link}",
         )
 
     # Если сообщение не соответствует ни одному из условий
