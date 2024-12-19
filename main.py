@@ -276,8 +276,6 @@ def get_currency_rates():
 # Обработчик команды /cbr
 @bot.message_handler(commands=["cbr"])
 def cbr_command(message):
-    add_user_to_list(message)  # Добавляем пользователя в множество
-
     try:
         rates_text = get_currency_rates()
 
@@ -324,9 +322,6 @@ def main_menu():
 def send_welcome(message):
     user = message.from_user
     user_first_name = user.first_name
-
-    # Сохраняем данные о пользователях бота
-    save_user_info(user)
 
     welcome_message = (
         f"Здравствуйте, {user_first_name}!\n\n"
@@ -967,9 +962,6 @@ def handle_message(message):
 
     # Проверяем нажатие кнопки "Рассчитать автомобиль"
     if user_message == "Расчитать автомобиль до Владивостока":
-        # Сохраняем пользователя в БД
-        save_user_info(user)
-
         bot.send_message(
             message.chat.id,
             "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
