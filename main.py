@@ -937,7 +937,7 @@ def handle_callback_query(call):
             )
             keyboard.add(
                 types.InlineKeyboardButton(
-                    "Связаться с менеджером", url="https://t.me/hanexport11"
+                    "Связаться с менеджером", url="https://t.me/BahaBBB777"
                 )
             )
 
