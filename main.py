@@ -703,9 +703,6 @@ def calculate_cost(link, message):
             "🔗[Официальный телеграм канал](https://t.me/kazkor_auto)\n"
         )
 
-        bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
-
-        # Клавиатура с дальнейшими действиями
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
             types.InlineKeyboardButton(
@@ -730,10 +727,15 @@ def calculate_cost(link, message):
             )
         )
 
-        bot.send_message(message.chat.id, "Что делаем дальше?", reply_markup=keyboard)
-
-        # Удаляем сообщение о передаче данных в обработку
-        bot.delete_message(message.chat.id, processing_message.message_id)
+        bot.send_message(
+            message.chat.id,
+            result_message,
+            parse_mode="Markdown",
+            reply_markup=keyboard,
+        )
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение данные переданы в обработку
 
     else:
         send_error_message(
@@ -833,7 +835,7 @@ def handle_callback_query(call):
         }
 
         car_price_formatted = format_number(details["car_price_korea"])
-        dealer_fee_formatted = format_number(35000)
+        # dealer_fee_formatted = format_number(35000)
         delivery_fee_formatted = format_number((750 * usd_rate) + 10000)
         dealer_commission_formatted = format_number(
             int(details["dealer_commission"]) + 30000
