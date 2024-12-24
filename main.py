@@ -848,8 +848,6 @@ def handle_callback_query(call):
             f"Единая таможенная ставка (ЕТС): <b>{russia_duty_formatted} ₽</b>\n\n"
         )
 
-        bot.send_message(call.message.chat.id, detail_message, parse_mode="HTML")
-
         # Inline buttons for further actions
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
@@ -865,7 +863,10 @@ def handle_callback_query(call):
         )
 
         bot.send_message(
-            call.message.chat.id, "Что делаем дальше?", reply_markup=keyboard
+            call.message.chat.id,
+            detail_message,
+            parse_mode="HTML",
+            reply_markup=keyboard,
         )
 
     elif call.data == "technical_report":
