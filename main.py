@@ -845,6 +845,7 @@ def handle_callback_query(call):
         detail_message = (
             f"Стоимость авто: <b>{car_price_formatted} ₽</b>\n\n"
             f"Услуги Брокера (СВХ, СБКТС): <b>{format_number(115000)} ₽</b>\n\n"
+            f"Услуги KazKorExport: <b>{format_number(35000)} ₽</b>\n\n"
             f"Доставка до Владивостока: <b>{delivery_fee_formatted} ₽</b>\n\n"
             f"Экспотная декларация и логистика по Южной Корее: <b>{dealer_commission_formatted} ₽</b>\n\n"
             f"Единая таможенная ставка (ЕТС): <b>{russia_duty_formatted} ₽</b>\n\n"
