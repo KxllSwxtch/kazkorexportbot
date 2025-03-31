@@ -471,7 +471,8 @@ def get_car_info(url):
     year = car_date[2:4]
     month = car_date[4:]
     car_engine_displacement = str(response["spec"]["displacement"])
-    car_type = response["spec"]["bodyName"]
+
+    car_type = response.get("spec", {}).get("bodyName", "")
 
     # Для получения данных по страховым выплатам
     vehicle_no = response["vehicleNo"]
